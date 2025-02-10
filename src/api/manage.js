@@ -144,7 +144,7 @@ export function rechargeList (parameter) {
  */
 export function orderList (parameter) {
     return request({
-        url: 'back/order/list',
+        url: 'order/list',
         method: 'post',
         data: parameter
     })

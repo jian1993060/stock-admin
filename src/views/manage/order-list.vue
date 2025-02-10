@@ -1,76 +1,13 @@
 <template>
   <a-card :bordered="false">
-    <!-- <div class="table-page-search-wrapper">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="8" :sm="24">
-            <a-form-item label="会员手机号码">
-              <a-input v-model="queryParam.phone" placeholder=""/>
-            </a-form-item>
-          </a-col>
-          <a-col :md="8" :sm="24">
-            <a-form-item label="使用状态">
-              <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                <a-select-option value="0">全部</a-select-option>
-                <a-select-option value="1">关闭</a-select-option>
-                <a-select-option value="2">运行中</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <template v-if="advanced">
-            <a-col :md="8" :sm="24">
-              <a-form-item label="调用次数">
-                <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="更新日期">
-                <a-date-picker v-model="queryParam.date" style="width: 100%" placeholder="请输入更新日期"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="使用状态">
-                <a-select v-model="queryParam.useStatus" placeholder="请选择" default-value="0">
-                  <a-select-option value="0">全部</a-select-option>
-                  <a-select-option value="1">关闭</a-select-option>
-                  <a-select-option value="2">运行中</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="使用状态">
-                <a-select placeholder="请选择" default-value="0">
-                  <a-select-option value="0">全部</a-select-option>
-                  <a-select-option value="1">关闭</a-select-option>
-                  <a-select-option value="2">运行中</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </template>
-          <a-col :md="!advanced && 8 || 24" :sm="24">
-            <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
-              <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
-              <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
-              <a @click="toggleAdvanced" style="margin-left: 8px">
-                {{ advanced ? '收起' : '展开' }}
-                <a-icon :type="advanced ? 'up' : 'down'"/>
-              </a>
-            </span>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div> -->
+    
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
+         
           <a-col :md="4" :sm="24">
-            <a-form-item label="手机号码">
-              <a-input v-model="queryParam.phone" allow-clear />
-            </a-form-item>
-          </a-col>
-          <a-col :md="4" :sm="24">
-            <a-form-item label="用户类型">
-              <a-input v-model="queryParam.name" allow-clear />
+            <a-form-item label="uid">
+              <a-input v-model="queryParam.userId" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="4" :sm="24">
@@ -97,16 +34,7 @@
         </a-row>
       </a-form>
     </div>
-    <div class="table-operator">
-      <a-row :gutter="48">
-        <a-col :md="1" :sm="24">
-          <ExcelModule @ok="$refs.table.refresh(true)" />
-        </a-col>
-        <a-col :md="1" :sm="24">
-          <a-button @click="showModal" type="primary">导出</a-button>
-        </a-col>
-      </a-row>
-    </div>
+    
     <a-modal :visible="visible" title="选择导出日期" @cancel="handleCancel" @ok="handleOk">
       <a-form layout="inline">
         <a-row :gutter="48">
@@ -150,29 +78,28 @@ import moment from 'moment'
 
 const columns = [
   {
-    title: '电话',
-    dataIndex: 'phone'
+    title: 'uid',
+    dataIndex: 'userId'
   },
   {
-    title: '用户类型',
-    dataIndex: 'productName'
+    title: '买入/卖出',
+    dataIndex: 'type'
   },
   {
     title: '数量',
-    dataIndex: 'productNum'
+    dataIndex: 'num'
   },
   {
     title: '金额',
     dataIndex: 'amount'
   },
   {
-    title: '日期',
-    dataIndex: 'createTime'
+    title: '股票代码',
+    dataIndex: 'code'
   },
   {
-    title: '合同',
-    dataIndex: 'contractImg',
-    scopedSlots: { customRender: 'contractImg' }
+    title: '日期',
+    dataIndex: 'createTime'
   }
 ]
 
