@@ -42,8 +42,9 @@
             <a-col :md="4" :sm="24">
               <a-form-item label="审核状态">
                 <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                  <a-select-option value="1">完成</a-select-option>
-                  <a-select-option value="2">审核中</a-select-option>
+                  <a-select-option value="3">待审核</a-select-option>
+                  <a-select-option value="1">审核通过</a-select-option>
+                  <a-select-option value="2">审核拒绝</a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>

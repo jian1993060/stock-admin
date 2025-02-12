@@ -13,8 +13,24 @@ export const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     meta: { title: 'menu.home' },
-    redirect: '/member/member-list',
+    redirect: '/index/index',
     children: [
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        redirect: '/dashboard/workplace',
+        component: RouteView,
+        meta: { title: '概括', icon: 'dashboard', permission: ['merchant', 'admin'] },
+        hideChildrenInMenu: true,
+        children: [
+          {
+            path: '/index/index',
+            name: 'indexIndex',
+            component: () => import('@/views/dashboard/index'),
+            meta: { title: '首页', keepAlive: true }
+          }
+        ]
+      },
       {
         path: 'member',
         name: 'Member',
@@ -28,6 +44,22 @@ export const asyncRouterMap = [
                 name: 'MemberMangeList',
                 component: () => import('@/views/manage/member-list'),
                 meta: { title: '会员管理', keepAlive: true }
+            }
+        ]
+      },
+      {
+        path: 'stock',
+        name: 'Stock',
+        component: RouteView,
+        redirect: '/stock/stock-list',
+        meta: { title: '开户管理', icon: 'dollar' },
+        hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+        children: [
+            {
+                path: '/stock/stock-list',
+                name: 'StockList',
+                component: () => import('@/views/manage/stock-list'),
+                meta: { title: '股票管理', keepAlive: true }
             }
         ]
       },

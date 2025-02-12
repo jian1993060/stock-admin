@@ -4,13 +4,8 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="4" :sm="24">
-            <a-form-item label="手机号码">
-              <a-input v-model="queryParam.phone" allow-clear />
-            </a-form-item>
-          </a-col>
-          <a-col :md="4" :sm="24">
-            <a-form-item label="姓名">
-              <a-input v-model="queryParam.name" allow-clear />
+            <a-form-item label="uid">
+              <a-input v-model="queryParam.userId" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="4" :sm="24">
@@ -47,9 +42,9 @@
         </a-row>
       </a-form>
     </div>
-    <div class="table-operator">
+    <!-- <div class="table-operator">
       <a-button @click="showModal" type="primary">导出</a-button>
-    </div>
+    </div> -->
     <s-table
       ref="table"
       size="default"
@@ -135,40 +130,24 @@ import { rechargeList, rechargeReview, typeInfo } from '@/api/manage'
 import moment from 'moment'
 const columns = [
   {
-    title: '用户ID',
+    title: 'uid',
     dataIndex: 'userId'
   },
   {
-    title: '姓名',
-    dataIndex: 'name'
-  },
-  {
-    title: '手机号码',
-    dataIndex: 'phone'
+    title: '充值地址',
+    dataIndex: 'fromAddress'
   },
   {
     title: '充值金额',
     dataIndex: 'amount'
   },
   {
-    title: '充值截图',
-    dataIndex: 'czImg',
-    scopedSlots: { customRender: 'czImg' }
-  },
-  {
     title: '充值时间',
     dataIndex: 'createTime'
   },
   {
-    title: '审核状态',
-    dataIndex: 'status',
-    customRender: (text) => (text === '1' ? '审核通过' : text === '3' ? '待审核' : '审核驳回')
-  },
-  {
-    title: '操作',
-    dataIndex: 'action',
-    width: '120px',
-    scopedSlots: { customRender: 'action' }
+    title: 'hash',
+    dataIndex: 'hash'
   }
 ]
 

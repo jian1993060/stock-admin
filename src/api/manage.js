@@ -151,104 +151,15 @@ export function orderList (parameter) {
 }
 
 /**
- * 公告
+ * 股票
  * @param {*} parameter
  * @returns
  */
-export function createNotice (parameter) {
-    return request({
-        url: 'back/notice/add',
-        method: 'post',
-        data: parameter
-    })
-}
-
-export function listNotice (parameter) {
-    return request({
-        url: 'back/notice/list',
-        method: 'post',
-        data: parameter
-    })
-}
-
-export function listProduct (parameter) {
+export function stockList (parameter) {
   return request({
-    url: 'back/product/list',
-    method: 'post',
-    data: parameter
-  })
-}
-
-export function addProduct (parameter) {
-  return request({
-    url: 'back/product/add',
-    method: 'post',
-    data: parameter
-  })
-}
-
-export function saveProduct (parameter) {
-  return request({
-    url: parameter && parameter.id ? 'back/product/update' : 'back/product/add',
-    method: 'post',
-    data: parameter
-  })
-}
-export function delProduct (parameter) {
-  return request({
-    url: 'back/product/del',
-    method: 'post',
-    data: parameter
-  })
-}
-
-export function rechargeReview (parameter) {
-    return request({
-        url: 'back/recharge/finish',
-        method: 'post',
-        data: parameter
-    })
-}
-
-export function typeInfo (parameter) {
-    return request({
-        url: 'back/type/info/id',
-        method: 'post',
-        data: parameter
-    })
-}
-
-export function upUserStatus (parameter) {
-  return request({
-      url: 'back/user/up/status/'+parameter,
-      method: 'post'
-  })
-}
-export function updatePwd (parameter) {
-  return request({
-      url: 'back/update/pwd',
-      method: 'post',
-      data: parameter
-  })
-}
-export function OperationRecords (parameter) {
-  return request({
-      url: 'back/logInfo/list',
+      url: 'stock/list',
       method: 'post',
       data: parameter
   })
 }
 
-export function delNotice (parameter) {
-  return request({
-      url: 'back/notice/del/'+parameter,
-      method: 'post'
-  })
-}
-export function userUpdate (parameter) {
-  return request({
-      url: 'back/user/update',
-      method: 'post',
-      data: parameter
-  })
-}
