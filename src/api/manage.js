@@ -163,3 +163,19 @@ export function stockList (parameter) {
   })
 }
 
+export function updateStockStatus (parameter) {
+  return request({
+      url: 'stock/update/status/' + parameter,
+      method: 'post',
+      data: parameter
+  })
+}
+
+export function updateStockHot (parameter) {
+  return request({
+      url: 'stock/update/hot/' + parameter,
+      method: 'post',
+      data: parameter
+  })
+}
+

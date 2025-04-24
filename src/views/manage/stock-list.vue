@@ -14,6 +14,22 @@
                 <a-input v-model="queryParam.name" allow-clear />
               </a-form-item>
             </a-col>
+            <a-col :md="4" :sm="24">
+              <a-form-item label="热门">
+                <a-select v-model="queryParam.hot" placeholder="请选择" default-value="0">
+                  <a-select-option value="1">是</a-select-option>
+                  <a-select-option value="2">否</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="4" :sm="24">
+              <a-form-item label="上架">
+                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
+                   <a-select-option value="1">是</a-select-option>
+                  <a-select-option value="2">否</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
             <a-col :md="!advanced && 8 || 24" :sm="24">
               <span class="table-page-search-submitButtons"
                 :style="advanced && { float: 'right', overflow: 'hidden' } || {}">
@@ -38,52 +54,18 @@
           {{ text == '1' ? '是' : '否' }}
         </span>
         <span slot="action" slot-scope="text, record">
-          <!-- <template>
-            <a @click="handleEdit(record)">编辑</a>
-          </template> -->
-          <template>
-            <a @click="modifyLevel(record)">修改等级</a>
-          </template>
+        
+        
+          <a-popconfirm title="是否改变股票上架状态" ok-text="Yes" cancel-text="No" @confirm="updateStatus(record)">
+            <a>{{ record.status == '2' ? '上架' : '下架' }}</a>
+          </a-popconfirm>
+          
           <a-divider type="vertical" />
-          <a-popconfirm title="是否改变该用户状态？" ok-text="Yes" cancel-text="No" @confirm="confirm(record)">
-            <a>{{ record.status == '2' ? '解冻' : '冻结' }}</a>
+          <a-popconfirm title="是否改变股票热门状态" ok-text="Yes" cancel-text="No" @confirm="updateHot(record)">
+            <a>{{ record.hot == '2' ? '热门展示' : '取消热门' }}</a>
           </a-popconfirm>
         </span>
       </s-table>
-      <a-modal title="修改用户收益" :visible="upVisible" :confirm-loading="confirmLoading" @ok="handleOk" @cancel="handleCancel">
-        <a-form-model :model="upUserModel">
-          <a-form-model-item label="推荐收益">
-            <a-select v-model="upUserModel.tjsy" placeholder="请选择推荐收益">
-              <a-select-option value="1">
-                是
-              </a-select-option>
-              <a-select-option value="2">
-                否
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item label="分红收益">
-            <a-select v-model="upUserModel.fhsy" placeholder="请选择分红收益">
-              <a-select-option value="1">
-                是
-              </a-select-option>
-              <a-select-option value="2">
-                否
-              </a-select-option>
-            </a-select>
-          </a-form-model-item>
-        </a-form-model>
-      </a-modal>
-      <a-modal :visible="editLevel" title="修改等级" @ok="handleOks()" @cancel="handleCancels">
-        <a-form :model="formState">
-          <a-form-item label="选择等级">
-            <a-select v-model="formState.level"  placeholder="please select your zone">
-              <a-select-option  v-for="item in level" :key="item.value" :value=item.value>{{ item.label }}</a-select-option>
-            </a-select>
-          </a-form-item>
-        </a-form>
-      </a-modal>
-      <create-member-form ref="createModal" @ok="$refs.table.refresh(true)" />
   
     </a-card>
   </template>
@@ -91,7 +73,7 @@
   <script>
   // import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { stockList} from '@/api/manage'
+  import { stockList,updateStockStatus,updateStockHot} from '@/api/manage'
   import moment from 'moment'
   import CreateMemberForm from './modules/CreateMemberForm'
   
@@ -110,10 +92,21 @@
       customRender: (text) => (text === 'us' ? '美股' : 'A股')
     },
     {
-      title: '展示',
+      title: '上架',
       dataIndex: 'status',
       customRender: (text) => (text === '1' ? '是' : '否')
     },
+    {
+      title: '热门',
+      dataIndex: 'hot',
+      customRender: (text) => (text === '1' ? '是' : '否')
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      width: '200px',
+      scopedSlots: { customRender: 'action' }
+    }
   
   ]
   
@@ -126,23 +119,11 @@
     },
     data() {
       this.columns = columns
-      return {
-        editLevel: false,
-        formState: {
-          level: "0",
-          id:''
-        },
-        confirmLoading: false,
-        upVisible: false,
-        // 高级搜索 展开/关闭
+      return {   
+         // 高级搜索 展开/关闭
         advanced: false,
         // 查询参数
         queryParam: {},
-        upUserModel: {
-          tjsy: '1',
-          fhsy: '1',
-          id: ''
-        },
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
           const requestParameters = Object.assign({}, parameter, this.queryParam)
@@ -159,7 +140,19 @@
         if (this.queryParam.startDate) {
           return current < moment(this.queryParam.startDate)
         }
-      }  
+      },
+      updateStatus(record) {   
+        updateStockStatus(record.id).then(() => {
+          this.$message.success('操作成功')
+          this.$refs.table.refresh(true)
+        })
+      },
+      updateHot(record) {
+         updateStockHot(record.id).then(() => {
+          this.$message.success('操作成功')
+          this.$refs.table.refresh(true)
+        })
+      },
        
     }
   }
