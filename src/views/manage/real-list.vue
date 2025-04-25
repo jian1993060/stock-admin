@@ -78,11 +78,10 @@
        
         <span slot="action" slot-scope="text, record">
           <a v-if="record.status == '3'" @click="showReviewModal(record)">审核</a>
+          <a-divider v-if="record.status == '3'" type="vertical" />
+          <a @click="showCzImgModel(record)">查看身份证</a>
         </span>
       </s-table>
-      <a-modal title="收款二维码" :visible="visibleQrcode" @ok="visibleQrcode = false" @cancel="visibleQrcode = false">
-        <img :src="selectQrcode" style="width: 100%" />
-      </a-modal>
       <a-modal
         title="提现审核"
         :visible="reviewVisible"
@@ -102,37 +101,6 @@
             <a-input v-model="reviewParams.info" allow-clear />
           </a-form-model-item>
         </a-form-model>
-      </a-modal>
-      <a-modal :visible="visible" title="选择导出日期" @cancel="handleCancel" @ok="handleOk">
-        <a-form layout="inline">
-          <a-row :gutter="48">
-            <a-col :md="12" :sm="24">
-              <a-form-item label="开始日期">
-                <a-date-picker
-                  v-model.trim="exports.startDate"
-                  placeholder="开始日期"
-                  format="YYYY-MM-DD"
-                  value-format="YYYY-MM-DD"
-                  allowClear
-                >
-                </a-date-picker>
-              </a-form-item>
-            </a-col>
-            <a-col :md="12" :sm="24">
-              <a-form-item label="结束日期">
-                <a-date-picker
-                  v-model.trim="exports.endDate"
-                  placeholder="结束日期"
-                  format="YYYY-MM-DD"
-                  value-format="YYYY-MM-DD"
-                  :disabled-date="disabledDates"
-                  allowClear
-                >
-                </a-date-picker>
-              </a-form-item>
-            </a-col>
-          </a-row>
-        </a-form>
       </a-modal>
     </a-card>
   </template>
@@ -214,11 +182,6 @@
     methods: {
         // 导出
       handleOk () {
-        // rechargeReview(this.exports).then(() => {
-        //   this.visible = false
-        // })
-        // .catch(() => {
-        // })
         console.log(this.exports)
       },
       handleCancel () {
@@ -242,13 +205,11 @@
         this.reviewParams.status = '1'
         this.reviewVisible = true
       },
-      showQrcodeModel (e) {
-        // this.selectQrcode = e.payUrl
-        // this.visibleQrcode = true
+      showCzImgModel (item) {
         this.$viewerApi({
-          images: [e.payUrl]
+            images: [item.img]
         })
-      },
+    },
       
       withdrawHandler () {
         realFinish(this.reviewParams).then(() => {

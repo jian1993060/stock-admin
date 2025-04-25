@@ -130,6 +130,16 @@ const columns = [
 
   },
   {
+    title: '姓名',
+    dataIndex: 'name'
+
+  },
+  {
+    title: '类型',
+    dataIndex: 'type'
+
+  },
+  {
     title: '创建时间',
     dataIndex: 'createTime',
     sorter: true

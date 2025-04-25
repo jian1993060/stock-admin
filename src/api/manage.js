@@ -137,6 +137,14 @@ export function rechargeList (parameter) {
     })
 }
 
+export function rechargeReview (parameter) {
+  return request({
+      url: '/recharge/finish ',
+      method: 'post',
+      data: parameter
+  })
+}
+
 /**
  * 订单列表
  * @param {*} parameter

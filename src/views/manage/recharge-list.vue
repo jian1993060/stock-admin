@@ -55,12 +55,17 @@
       :scroll="{ x: 'max-content' }"
       bordered
     >
+    <span slot="img" slot-scope="text, record">
+          <img :src="record.img" style="width: 64px; height: 64px" />
+    </span>
       <span slot="czImg" slot-scope="text, record">
-        <a v-if="record.payType !== '3'" @click="showCzImgModel(record)">查看充值截图</a>
+        <a @click="showCzImgModel(record)">查看充值截图</a>
       </span>
       <span slot="action" slot-scope="text, record">
         <!-- status == 1 -->
         <a v-if="record.status != '1'" @click="showReviewModal(record)">{{ record.status == '3'?'审核':'重新审核' }}</a>
+        <a-divider v-if="record.status == '3'" type="vertical" />
+        <a @click="showCzImgModel(record)">查看充值截图</a>
       </span>
     </s-table>
 
@@ -78,7 +83,6 @@
       <a-form-model :model="reviewParams" :label-col="{ span: 4 }" :wrapper-col="{ span: 14 }">
         <a-form-model-item label="审核状态" prop="status" :rules="{ required: true }">
           <a-radio-group v-model="reviewParams.status">
-            <!-- 1 2 3对应通过 未审核  驳回 -->
             <a-radio value="1"> 通过 </a-radio>
             <a-radio value="2"> 驳回 </a-radio>
           </a-radio-group>
@@ -87,38 +91,6 @@
           <a-input v-model="reviewParams.info" allow-clear />
         </a-form-model-item>
       </a-form-model>
-    </a-modal>
-
-    <a-modal :visible="visible" title="选择导出日期" @cancel="handleCancel" @ok="handleOk">
-      <a-form layout="inline">
-        <a-row :gutter="48">
-          <a-col :md="12" :sm="24">
-            <a-form-item label="开始日期">
-              <a-date-picker
-                v-model.trim="exports.startDate"
-                placeholder="开始日期"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                allowClear
-              >
-              </a-date-picker>
-            </a-form-item>
-          </a-col>
-          <a-col :md="12" :sm="24">
-            <a-form-item label="结束日期">
-              <a-date-picker
-                v-model.trim="exports.endDate"
-                placeholder="结束日期"
-                format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD"
-                :disabled-date="disabledDates"
-                allowClear
-              >
-              </a-date-picker>
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
     </a-modal>
   </a-card>
 </template>
@@ -130,13 +102,19 @@ import { rechargeList, rechargeReview, typeInfo } from '@/api/manage'
 import moment from 'moment'
 const columns = [
   {
-    title: 'uid',
+    title: 'UID',
     dataIndex: 'userId'
   },
   {
-    title: '充值地址',
-    dataIndex: 'fromAddress'
+    title: '类型',
+    dataIndex: 'type'
+
   },
+  {
+      title: '充值截图',
+      dataIndex: 'img',
+      scopedSlots: { customRender: 'img' }
+    },
   {
     title: '充值金额',
     dataIndex: 'amount'
@@ -146,8 +124,15 @@ const columns = [
     dataIndex: 'createTime'
   },
   {
-    title: 'hash',
-    dataIndex: 'hash'
+    title: '审核状态',
+    dataIndex: 'status',
+    customRender: (text) => (text === '1' ? '审核通过' : text === '3' ? '待审核' : '审核驳回')
+  },
+  {
+    title: '操作',
+    dataIndex: 'action',
+    width: '200px',
+    scopedSlots: { customRender: 'action' }
   }
 ]
 
@@ -226,7 +211,7 @@ export default {
     //   this.selectQrcode = item.czImg
     //   this.visibleQrcode = true
         this.$viewerApi({
-            images: [item.czImg]
+            images: [item.img]
         })
     },
     showReviewModal (record) {
