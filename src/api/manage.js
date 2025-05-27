@@ -187,3 +187,19 @@ export function updateStockHot (parameter) {
   })
 }
 
+export function addUserBalance (parameter) {
+  return request({
+      url: 'user/add/balance',
+      method: 'post',
+      data: parameter
+  })
+}
+
+export function addStockApi (parameter) {
+  return request({
+      url: 'stock/add',
+      method: 'post',
+      data: parameter
+  })
+}
+

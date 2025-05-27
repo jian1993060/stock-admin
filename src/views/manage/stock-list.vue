@@ -23,6 +23,14 @@
               </a-form-item>
             </a-col>
             <a-col :md="4" :sm="24">
+              <a-form-item label="股票类型">
+                <a-select v-model="queryParam.type" placeholder="请选择" default-value="0">
+                  <a-select-option value="us">美股</a-select-option>
+                  <a-select-option value="cn">A股</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+            <a-col :md="4" :sm="24">
               <a-form-item label="上架">
                 <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
                    <a-select-option value="1">是</a-select-option>
@@ -35,15 +43,12 @@
                 :style="advanced && { float: 'right', overflow: 'hidden' } || {}">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => this.queryParam = {}">重置</a-button>
+                <a-button style="margin-left: 8px" @click=addStock()>添加股票</a-button>
               </span>
             </a-col>
           </a-row>
         </a-form>
       </div>
-  
-      <!-- <div class="table-operator">
-        <a-button type="primary" icon="plus" @click="handleAdd">创建</a-button>
-      </div> -->
   
       <s-table ref="table" size="default" rowKey="id" :columns="columns" :data="loadData" showPagination="auto"
         :scroll="{ x: 'max-content' }" bordered>
@@ -64,8 +69,20 @@
           <a-popconfirm title="是否改变股票热门状态" ok-text="Yes" cancel-text="No" @confirm="updateHot(record)">
             <a>{{ record.hot == '2' ? '热门展示' : '取消热门' }}</a>
           </a-popconfirm>
+          <a-divider type="vertical" />
         </span>
       </s-table>
+
+      <a-modal :visible="upVisible" title="增加股票" @ok="handleOk()" @cancel="handleCancel">
+      <a-form :model="formState">
+        <a-form-item label="代码">
+          <a-input v-model="formState.code" />
+        </a-form-item>
+        <a-form-item label="名称">
+          <a-input v-model="formState.name" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   
     </a-card>
   </template>
@@ -73,7 +90,7 @@
   <script>
   // import moment from 'moment'
   import { STable, Ellipsis } from '@/components'
-  import { stockList,updateStockStatus,updateStockHot} from '@/api/manage'
+  import { stockList,updateStockStatus,updateStockHot,addStockApi} from '@/api/manage'
   import moment from 'moment'
   import CreateMemberForm from './modules/CreateMemberForm'
   
@@ -124,6 +141,11 @@
         advanced: false,
         // 查询参数
         queryParam: {},
+        upVisible: false, 
+        formState: {
+          id: '',
+          name: ''
+        },
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
           const requestParameters = Object.assign({}, parameter, this.queryParam)
@@ -153,6 +175,21 @@
           this.$refs.table.refresh(true)
         })
       },
+      addStock(){
+        this.upVisible = true
+      },
+      handleOk(){
+        addStockApi(this.formState).then(() => {
+          this.upVisible = false
+          this.formState = {}
+          this.$message.success('操作成功')
+          this.$refs.table.refresh(true)
+        })
+      },
+      handleCancel(){
+        this.upVisible = false
+        this.formState = {}
+      }
        
     }
   }
