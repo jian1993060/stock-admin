@@ -4,12 +4,12 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="48">
-          <a-col :md="4" :sm="24">
+          <a-col :md="10" :sm="10">
             <a-form-item label="会员邮箱">
               <a-input v-model="queryParam.email" allow-clear />
             </a-form-item>
           </a-col>
-          <a-col :md="4" :sm="24">
+          <a-col :md="10" :sm="10">
             <a-form-item label="实名状态">
               <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
                 <a-select-option value="1">已实名</a-select-option>
@@ -17,7 +17,7 @@
               </a-select>
             </a-form-item>
           </a-col>
-          <a-col :md="4" :sm="24">
+          <a-col :md="10" :sm="10">
             <a-form-item label="开始日期">
               <a-date-picker v-model.trim="queryParam.startDate" placeholder="开始日期" format="YYYY-MM-DD"
                 value-format="YYYY-MM-DD" allowClear>

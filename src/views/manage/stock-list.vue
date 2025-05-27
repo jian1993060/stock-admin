@@ -4,18 +4,18 @@
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
-            <a-col :md="4" :sm="24">
+            <a-col :md="8" :sm="10 ">
               <a-form-item label="股票代码">
                 <a-input v-model="queryParam.id" allow-clear />
               </a-form-item>
             </a-col>
-            <a-col :md="4" :sm="24">
+            <a-col :md="8" :sm="10">
               <a-form-item label="股票名称">
                 <a-input v-model="queryParam.name" allow-clear />
               </a-form-item>
             </a-col>
             
-            <a-col :md="!advanced && 8 || 24" :sm="24">
+            <a-col :md="!advanced && 8 || 24" :sm="40">
               <span class="table-page-search-submitButtons"
                 :style="advanced && { float: 'right', overflow: 'hidden' } || {}">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
