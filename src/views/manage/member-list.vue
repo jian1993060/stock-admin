@@ -64,7 +64,7 @@
       </span>
     </s-table>
 
-    <a-modal :visible="upVisible" title="上分" @ok="handleOk()" @cancel="handleCancel">
+    <a-modal :visible="upVisible" title="上分 " @ok="handleOk()" @cancel="handleCancel">
       <a-form :model="formState">
         <a-form-item label="余额">
           <a-input v-model="formState.amount" />

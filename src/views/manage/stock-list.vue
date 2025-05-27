@@ -14,30 +14,7 @@
                 <a-input v-model="queryParam.name" allow-clear />
               </a-form-item>
             </a-col>
-            <a-col :md="4" :sm="24">
-              <a-form-item label="热门">
-                <a-select v-model="queryParam.hot" placeholder="请选择" default-value="0">
-                  <a-select-option value="1">是</a-select-option>
-                  <a-select-option value="2">否</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="4" :sm="24">
-              <a-form-item label="股票类型">
-                <a-select v-model="queryParam.type" placeholder="请选择" default-value="0">
-                  <a-select-option value="us">美股</a-select-option>
-                  <a-select-option value="cn">A股</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :md="4" :sm="24">
-              <a-form-item label="上架">
-                <a-select v-model="queryParam.status" placeholder="请选择" default-value="0">
-                   <a-select-option value="1">是</a-select-option>
-                  <a-select-option value="2">否</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
+            
             <a-col :md="!advanced && 8 || 24" :sm="24">
               <span class="table-page-search-submitButtons"
                 :style="advanced && { float: 'right', overflow: 'hidden' } || {}">
