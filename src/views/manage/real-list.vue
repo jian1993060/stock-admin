@@ -124,6 +124,10 @@
       dataIndex: 'idNo'
     },
     {
+      title: '银行卡',
+      dataIndex: 'bankNo'
+    },
+    {
       title: '身份证图片',
       dataIndex: 'img',
       scopedSlots: { customRender: 'img' }
