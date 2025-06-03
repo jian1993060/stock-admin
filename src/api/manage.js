@@ -203,3 +203,11 @@ export function addStockApi (parameter) {
   })
 }
 
+export function updatePwd (parameter) {
+  return request({
+      url: 'user/update/pwd',
+      method: 'post',
+      data: parameter
+  })
+}
+
