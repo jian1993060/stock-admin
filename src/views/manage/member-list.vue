@@ -5,8 +5,8 @@
       <a-form layout="inline">
         <a-row :gutter="48">
           <a-col :md="10" :sm="10">
-            <a-form-item label="会员邮箱">
-              <a-input v-model="queryParam.email" allow-clear />
+            <a-form-item label="会员UID">
+              <a-input v-model="queryParam.id" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="10" :sm="10">
@@ -18,17 +18,8 @@
             </a-form-item>
           </a-col>
           <a-col :md="10" :sm="10">
-            <a-form-item label="开始日期">
-              <a-date-picker v-model.trim="queryParam.startDate" placeholder="开始日期" format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD" allowClear>
-              </a-date-picker>
-            </a-form-item>
-          </a-col>
-          <a-col :md="4" :sm="24">
-            <a-form-item label="结束日期">
-              <a-date-picker v-model.trim="queryParam.endDate" placeholder="结束日期" format="YYYY-MM-DD"
-                value-format="YYYY-MM-DD" :disabled-date="disabledDate" allowClear>
-              </a-date-picker>
+            <a-form-item label="邮箱">
+              <a-input v-model="queryParam.email" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="!advanced && 8 || 24" :sm="24">
