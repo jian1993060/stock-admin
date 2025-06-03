@@ -52,6 +52,10 @@
         <template>
           <a @click="addBalance(record)">上分</a>
         </template>
+        <a-divider type="vertical" />
+        <template>
+          <a @click="delUser(record)">删除用户</a>
+        </template>
       </span>
     </s-table>
 
@@ -70,9 +74,10 @@
 <script>
 // import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { memberList, addUserBalance } from '@/api/manage'
+import { memberList, addUserBalance,delUserApi } from '@/api/manage'
 import moment from 'moment'
 import CreateMemberForm from './modules/CreateMemberForm'
+import { Modal } from 'ant-design-vue'
 
 const columns = [
   {
@@ -152,8 +157,24 @@ export default {
     handleCancel() {
       this.upVisible = false
       this.formState.id = {}
+    },
+    delUser(record) {
+      Modal.confirm({
+        title: '确认删除',
+        content: '确定要删除该用户吗？此操作不可恢复。',
+        okText: '确认',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: () => {
+          return delUserApi(record.id ).then(() => {
+            this.$message.success('删除成功')
+            this.$refs.table.refresh(true)
+          }).catch(err => {
+            this.$message.error('删除失败：' + err.message)
+          })
+        }
+      })
     }
-
   }
 }
 </script>

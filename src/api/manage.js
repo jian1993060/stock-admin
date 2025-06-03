@@ -211,3 +211,10 @@ export function updatePwd (parameter) {
   })
 }
 
+export function delUserApi (parameter) {
+  return request({
+      url: 'user/del/'+parameter,
+      method: 'post'   
+  })
+}
+
