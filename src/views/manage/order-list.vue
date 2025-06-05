@@ -6,8 +6,8 @@
         <a-row :gutter="48">
          
           <a-col :md="4" :sm="24">
-            <a-form-item label="uid">
-              <a-input v-model="queryParam.userId" allow-clear />
+            <a-form-item label="id">
+              <a-input v-model="queryParam.id" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :md="4" :sm="24">
